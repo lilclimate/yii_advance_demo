@@ -13,6 +13,9 @@ use common\models\User;
  */
 class SiteController extends Controller
 {
+
+    private $manifest;
+
     /**
      * @inheritdoc
      */
@@ -77,11 +80,66 @@ class SiteController extends Controller
     }
 
     public function actionTest() {
-        User::findByUsername('test123');
-        $path = '/data/www_self/yii_demo/advanced/backend/runtime/debug/singleDebug.data';
-        $data = unserialize(file_get_contents($path));
-        // $data = file_get_contents($path);
-        echo "<PRE>";print_R($data);exit;
+        $result = User::findByUsername('test123');
+        // sleep(3);
+        // $path = '/data/www_self/yii_demo/advanced/backend/runtime/debug/singleDebug.data';
+        // $data = unserialize(file_get_contents($path));
+        // // $data = file_get_contents($path);
+        // echo "<PRE>";print_R($data);exit;
+        echo "<PRE>";print_R($this->debug());exit;
+    }
+
+    public function debug()
+    {
+        $searchModel = new \yii\debug\models\search\Debug();
+        $dataProvider = $searchModel->search($_GET, $this->getManifest());
+
+        $tags = array_keys($this->getManifest());
+        $tag = reset($tags);
+
+        $dataPath = Yii::getAlias('@runtime/debug');
+        $maxRetry = 0;
+        for ($retry = 0; $retry <= $maxRetry; ++$retry) {
+            $manifest = $this->getManifest($retry > 0);
+            if (isset($manifest[$tag])) {
+                $dataFile = $dataPath . "/$tag.data";
+                $data = unserialize(file_get_contents($dataFile));
+
+                return $data;
+            }
+            sleep(1);
+        }
+
+        return ['error_msg' => 'Unable to find debug data tagged with ' . $tag];
+    }
+
+    protected function getManifest($forceReload = false)
+    {
+        if ($this->manifest === null || $forceReload) {
+            if ($forceReload) {
+                clearstatcache();
+            }
+
+            $dataPath = Yii::getAlias('@runtime/debug');
+            $indexFile = $dataPath . '/index.data';
+
+            $content = '';
+            $fp = @fopen($indexFile, 'r');
+            if ($fp !== false) {
+                @flock($fp, LOCK_SH);
+                $content = fread($fp, filesize($indexFile));
+                @flock($fp, LOCK_UN);
+                fclose($fp);
+            }
+
+            if ($content !== '') {
+                $this->manifest = array_reverse(unserialize($content), true);
+            } else {
+                $this->manifest = [];
+            }
+        }
+
+        return $this->manifest;
     }
 
     /**
