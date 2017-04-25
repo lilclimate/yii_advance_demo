@@ -6,7 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-use yii\debug\Module;
+use common\models\User;
 
 /**
  * Site controller
@@ -27,9 +27,18 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['test', 'index'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -61,7 +70,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
+
         return $this->render('index');
+
+    }
+
+    public function actionTest() {
+        User::findByUsername('test123');
+        $path = '/data/www_self/yii_demo/advanced/backend/runtime/debug/singleDebug.data';
+        $data = unserialize(file_get_contents($path));
+        // $data = file_get_contents($path);
+        echo "<PRE>";print_R($data);exit;
     }
 
     /**
@@ -74,6 +94,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+        
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
