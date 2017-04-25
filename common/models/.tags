@@ -1,0 +1,41 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+LoginForm	LoginForm.php	/^class LoginForm extends Model$/;"	c
+User	User.php	/^class User extends ActiveRecord implements IdentityInterface$/;"	c
+_user	LoginForm.php	/^            $this->_user = User::findByUsername($this->username);$/;"	v
+_user	LoginForm.php	/^    private $_user;$/;"	v
+auth_key	User.php	/^        $this->auth_key = Yii::$app->security->generateRandomString();$/;"	v
+behaviors	User.php	/^    public function behaviors()$/;"	f
+expire	User.php	/^        $expire = Yii::$app->params['user.passwordResetTokenExpire'];$/;"	v
+findByPasswordResetToken	User.php	/^    public static function findByPasswordResetToken($token)$/;"	f
+findByUsername	User.php	/^    public static function findByUsername($username)$/;"	f
+findIdentity	User.php	/^    public static function findIdentity($id)$/;"	f
+findIdentityByAccessToken	User.php	/^    public static function findIdentityByAccessToken($token, $type = null)$/;"	f
+generateAuthKey	User.php	/^    public function generateAuthKey()$/;"	f
+generatePasswordResetToken	User.php	/^    public function generatePasswordResetToken()$/;"	f
+getAuthKey	User.php	/^    public function getAuthKey()$/;"	f
+getId	User.php	/^    public function getId()$/;"	f
+getUser	LoginForm.php	/^    protected function getUser()$/;"	f
+isPasswordResetTokenValid	User.php	/^    public static function isPasswordResetTokenValid($token)$/;"	f
+login	LoginForm.php	/^    public function login()$/;"	f
+password	LoginForm.php	/^    public $password;$/;"	v
+password_hash	User.php	/^        $this->password_hash = Yii::$app->security->generatePasswordHash($password);$/;"	v
+password_reset_token	User.php	/^        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();$/;"	v
+password_reset_token	User.php	/^        $this->password_reset_token = null;$/;"	v
+rememberMe	LoginForm.php	/^    public $rememberMe = true;$/;"	v
+removePasswordResetToken	User.php	/^    public function removePasswordResetToken()$/;"	f
+rules	LoginForm.php	/^    public function rules()$/;"	f
+rules	User.php	/^    public function rules()$/;"	f
+setPassword	User.php	/^    public function setPassword($password)$/;"	f
+tableName	User.php	/^    public static function tableName()$/;"	f
+timestamp	User.php	/^        $timestamp = (int) substr($token, strrpos($token, '_') + 1);$/;"	v
+type	User.php	/^    public static function findIdentityByAccessToken($token, $type = null)$/;"	v
+user	LoginForm.php	/^            $user = $this->getUser();$/;"	v
+username	LoginForm.php	/^    public $username;$/;"	v
+validateAuthKey	User.php	/^    public function validateAuthKey($authKey)$/;"	f
+validatePassword	LoginForm.php	/^    public function validatePassword($attribute, $params)$/;"	f
+validatePassword	User.php	/^    public function validatePassword($password)$/;"	f
